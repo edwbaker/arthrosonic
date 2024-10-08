@@ -1,0 +1,57 @@
+#!/bin/bash
+
+INDIR=""
+OUTDIR=""
+DURATION=6
+
+while getopts "i:o:d" opt; do
+  case ${opt} in
+    i)
+      INDIR="$OPTARG"
+      ;;
+    o)
+      OUTDIR="$OPTARG"
+      ;;
+    d)
+      DURATION="$OPTARG"
+      ;;
+    :)
+      echo "Option -${OPTARG} requires an argument."
+      exit 1
+      ;;
+    ?)
+      echo "Invalid option: -${OPTARG}."
+      exit 1
+      ;;
+  esac
+done
+
+if [ -z $INDIR ]; then
+        echo "Input directory not specified."
+        exit 1
+fi
+
+if [ -z $OUTDIR ]; then
+        echo "Output directory not specified."
+        exit 1
+fi
+
+if ! [ -d $INDIR ]; then
+        echo "$INDIR is not a directory"
+        exit 1
+fi
+
+if ! [ -d $OUTDIR ]; then
+        echo "$OUTDIR is not a directory"
+        exit 1
+fi
+
+if [ $(ls -A $OUTDIR | wc -l) -ne 0 ]; then
+        echo "$OUTDIR is not empty."
+        exit 1
+fi
+
+for filename in $INDIR/*;
+    do
+        sox $filename $OUTDIR/$(basename "$filename").mp3 trim 0 $DURATION : newfile : restart;
+    done

@@ -9,7 +9,7 @@ TRIM=0
 while getopts "i:o:m:t:h" opt; do
   case ${opt} in
     h)
-      echo "Usage: $0 -i <input directory> -o <output directory> [-d <duration of samples>] [-m <manifest>]"
+      echo "Usage: $0 -i <input directory> -o <output directory> [-d <duration of samples>] [-t <trim from start>] [-m <manifest>]"
       echo "Options:"
       echo "  -i: Input directory containing audio files."
       echo "  -o: Output directory to store segmented audio files."

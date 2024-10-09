@@ -46,7 +46,7 @@ arthrosonic -i input_directory -o output_directory [-d duration] [-t trim] [-m m
 
 - cd to the output directory.
 
-- Use the Zooniverse Panoptes CLI to upload the manifest.csv generated to a subject-set. 
+- Use the Zooniverse Panoptes CLI to upload the manifest.csv generated to a subject-set.
 
 ## Etymology
 

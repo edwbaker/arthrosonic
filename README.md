@@ -54,7 +54,7 @@ The project name is derived from:
 
 - arthro- (jointed) referencing the segmentation and the fossil myriapod _Arthropleura_.
 
-- sonic referecing sound.
+- sonic referencing sound.
 
 ## Notes
 

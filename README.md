@@ -6,6 +6,8 @@ The script takes a directory of sound files (of any type that can be read by `ff
 
 ## Installation
 
+Installation on a Unix-like environment (e.g. Linux, macOS).
+
 ````bash
 wget https://raw.githubusercontent.com/edwbaker/arthrosonic/refs/heads/main/arthrosonic
 chmod +x arthrosonic
@@ -34,7 +36,7 @@ arthrosonic -i input_directory -o output_directory [-d duration] [-t trim] [-m m
 
 The project name is derived from:
 
-- arthro- (jointed) referencing the segmentation and the fossil myriapod __Arthropleura__.
+- arthro- (jointed) referencing the segmentation and the fossil myriapod _Arthropleura_.
 
 - sonic referecing sound.
 

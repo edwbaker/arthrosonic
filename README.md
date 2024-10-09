@@ -6,7 +6,17 @@ The script takes a directory of sound files (of any type that can be read by `ff
 
 ## Installation
 
-Installation on a Unix-like environment (e.g. Linux, macOS).
+### Requirements
+
+- Unix-like operating system.
+
+- sox
+
+- ffmpeg
+
+For details on installing sox and ffmpeg on macOS see details at the start of [Linux audio recipes](https://ebaker.me.uk/notes/linux-audio-recipes.html).
+
+### Install from GitHub
 
 ````bash
 wget https://raw.githubusercontent.com/edwbaker/arthrosonic/refs/heads/main/arthrosonic

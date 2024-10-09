@@ -46,62 +46,64 @@ while getopts "i:o:m:t:h" opt; do
 done
 
 if [ -z $INDIR ]; then
-        echo "Input directory not specified."
-        exit 1
+  echo "Input directory not specified."
+  exit 1
 fi
 
 if [ -z $OUTDIR ]; then
-        echo "Output directory not specified."
-        exit 1
+  echo "Output directory not specified."
+  exit 1
 fi
 
 if ! [ -d $INDIR ]; then
-        echo "$INDIR is not a directory"
-        exit 1
+  echo "$INDIR is not a directory"
+  exit 1
 fi
 
 if ! [ -d $OUTDIR ]; then
-        echo "$OUTDIR is not a directory"
-        exit 1
+  echo "$OUTDIR is not a directory"
+  exit 1
 fi
 
 if [ $(ls -A $OUTDIR | wc -l) -ne 0 ]; then
-        echo "$OUTDIR is not empty."
-        exit 1
+  echo "$OUTDIR is not empty."
+  exit 1
 fi
 
 # Check that sox is available
 if ! [ -x "$(command -v sox)" ]; then
-        echo "Error: sox is not installed."
-        exit 1
+  echo "Error: sox is not installed."
+  exit 1
 fi
 
 #Check that ffmpeg is available
 if ! [ -x "$(command -v ffmpeg)" ]; then
-        echo "Error: ffmpeg is not installed."
-        exit 1
+  echo "Error: ffmpeg is not installed."
+  exit 1
 fi
 
 INDIR=$(echo "$INDIR" | sed 's:/*$::')
 
 if [ $MANIFEST -eq 1 ]; then
-        echo "file,segment.file,segment.length,segment.number" > $OUTDIR/manifest.csv
+echo "file,segment.file,segment.length,segment.number" > $OUTDIR/manifest.csv
 
-        for filename in $INDIR/*;
-            do
-                ffmpeg -hide_banner -i $filename -f sox - | sox -p -p trim $TRIM | sox -t sox - $OUTDIR/$(basename "$filename")$TRIM.mp3 trim 0 $DURATION : newfile : restart;
-            done
+for filename in $INDIR/*;
+  do
+    ffmpeg -hide_banner -i $filename -f sox - \
+    | sox -p -p trim $TRIM \
+    | sox -t sox - $OUTDIR/$(basename "$filename")$TRIM.mp3 trim 0 $DURATION : newfile : restart;
+  done
 
-        echo "file,segment.file,segment.length,segment.number" > $OUTDIR/manifest.csv
-        for segment_file in $OUTDIR/*.mp3;
-            do
-                filename=$(basename "$segment_file" .mp3)
+echo "file,segment.file,segment.length,segment.number" > $OUTDIR/manifest.csv
+for segment_file in $OUTDIR/*.mp3;
+  do
+    filename=$(basename "$segment_file" .mp3)
 
-                #Strip trailing digits from $filename
-                filename=$(echo "$filename" | sed 's/[0-9]*$//')
+    #Strip trailing digits from $filename
+    filename=$(echo "$filename" | sed 's/[0-9]*$//')
 
-                segment=$(basename "$segment_file" .mp3 | sed 's/.*[^0-9]\(.*\)$/\1/' | sed 's/^0*//')
-                s_filename=$(basename "$segment_file")
-                echo "$filename,$s_filename,$DURATION,$segment" >> $OUTDIR/manifest.csv
-            done
+    segment=$(basename "$segment_file" .mp3 | sed 's/.*[^0-9]\(.*\)$/\1/' | sed 's/^0*//')
+    s_filename=$(basename "$segment_file")
+    echo "$filename,$s_filename,$DURATION,$segment" >> $OUTDIR/manifest.csv
+  done
 fi

@@ -12,7 +12,7 @@ mv arthrosonic /usr/local/bin/
 
 ## Usage
 
-arthrosonic -i <input directory> -o <output directory> [-d <duration of samples>] [-t <trim from start>] [-m <manifest>]"
+arthrosonic -i input_directory -o output_directory [-d duration] [-t trim] [-m manifest]"
 
 ### Options
 

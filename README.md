@@ -2,6 +2,8 @@
 
 Arthrosonic is a sound segmenter used to prepare files as part of the FlyTunes project.
 
+The script takes a directory of sound files (of any type that can be read by `ffmpeg`) and cuts them into segments of length `duration` (seconds) using `sox`, optionally offsetting from the front by `trim` seconds. The files are outputted in mp3 format regardless of input format. A mainfest file is generated listing the files created with metadata.
+
 ## Installation
 
 ````bash
@@ -27,3 +29,19 @@ arthrosonic -i input_directory -o output_directory [-d duration] [-t trim] [-m m
 -t: Offset the start of first segment by this amount in seconds. Default is 0.
 
 -h: Display  help message.
+
+## Etymology
+
+The project name is derived from:
+
+- arthro- (jointed) referencing the segmentation and the fossil myriapod __Arthropleura__.
+
+- sonic referecing sound.
+
+## Notes
+
+This script combines audio manipulations from ffmpeg and sox as described in [Linux audio recipes](https://ebaker.me.uk/notes/linux-audio-recipes.html).
+
+## Support
+
+This script was developed as part of the Urban Nature Project at the [Natural History Museum](https://www.nhm.ac.uk).

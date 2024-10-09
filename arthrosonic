@@ -3,9 +3,20 @@
 INDIR=""
 OUTDIR=""
 DURATION=6
+MANIFEST=1
 
-while getopts "i:o:d" opt; do
+while getopts "i:o:m:h" opt; do
   case ${opt} in
+    h)
+      echo "Usage: $0 -i <input directory> -o <output directory> [-d <duration of samples>] [-m <manifest>]"
+      echo "Options:"
+      echo "  -i: Input directory containing audio files."
+      echo "  -o: Output directory to store segmented audio files."
+      echo "  -d: Duration of each segment in seconds. Default is 6 seconds."
+      echo "  -m: Generate manifest file. 0 for false, 1 for true. Default is 1."
+      echo "  -h: Display this help message."
+      exit 0
+      ;;
     i)
       INDIR="$OPTARG"
       ;;
@@ -14,6 +25,9 @@ while getopts "i:o:d" opt; do
       ;;
     d)
       DURATION="$OPTARG"
+      ;;
+    m)
+      MANIFEST="$OPTARG"
       ;;
     :)
       echo "Option -${OPTARG} requires an argument."
@@ -51,7 +65,38 @@ if [ $(ls -A $OUTDIR | wc -l) -ne 0 ]; then
         exit 1
 fi
 
-for filename in $INDIR/*;
-    do
-        sox $filename $OUTDIR/$(basename "$filename").mp3 trim 0 $DURATION : newfile : restart;
-    done
+# Check that sox is available
+if ! [ -x "$(command -v sox)" ]; then
+        echo "Error: sox is not installed."
+        exit 1
+fi
+
+#Check that ffmpeg is available
+if ! [ -x "$(command -v ffmpeg)" ]; then
+        echo "Error: ffmpeg is not installed."
+        exit 1
+fi
+
+INDIR=$(echo "$INDIR" | sed 's:/*$::')
+
+if [ $MANIFEST -eq 1 ]; then
+        echo "file,segment.file,segment.length,segment.number" > $OUTDIR/manifest.csv
+
+        for filename in $INDIR/*;
+            do
+                ffmpeg -hide_banner -i $filename -f sox - | sox -t sox - $OUTDIR/$(basename "$filename").mp3 trim 0 $DURATION : newfile : restart;
+            done
+
+        echo "file,segment.file,segment.length,segment.number" > $OUTDIR/manifest.csv
+        for segment_file in $OUTDIR/*.mp3;
+            do
+                filename=$(basename "$segment_file" .mp3)
+
+                #Strip trailing digits from $filename
+                filename=$(echo "$filename" | sed 's/[0-9]*$//')
+
+                segment=$(basename "$segment_file" .mp3 | sed 's/.*[^0-9]\(.*\)$/\1/' | sed 's/^0*//')
+                s_filename=$(basename "$segment_file")
+                echo "$filename,$s_filename,$DURATION,$segment" >> $OUTDIR/manifest.csv
+            done
+fi

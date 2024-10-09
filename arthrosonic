@@ -83,6 +83,7 @@ if ! [ -x "$(command -v ffmpeg)" ]; then
 fi
 
 INDIR=$(echo "$INDIR" | sed 's:/*$::')
+OUTDIR=$(echo "$OUTDIR" | sed 's:/*$::')
 
 if [ $MANIFEST -eq 1 ]; then
 echo "file,segment.file,segment.length,segment.number" > $OUTDIR/manifest.csv

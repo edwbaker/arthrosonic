@@ -17,8 +17,13 @@ arthrosonic -i input_directory -o output_directory [-d duration] [-t trim] [-m m
 ### Options
 
 -i: Input directory containing audio files.
+
 -o: Output directory to store segmented audio files.
+
 -d: Duration of each segment in seconds. Default is 6 seconds.
+
 -m: Generate manifest file. 0 for false, 1 for true. Default is 1.
+
 -t: Offset the start of first segment by this amount in seconds. Default is 0.
+
 -h: Display  help message.

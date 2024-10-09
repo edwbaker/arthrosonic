@@ -42,6 +42,12 @@ arthrosonic -i input_directory -o output_directory [-d duration] [-t trim] [-m m
 
 -h: Display  help message.
 
+## Upload to Zooniverse
+
+- cd to the output directory.
+
+- Use the Zooniverse Panoptes CLI to upload the manifest.csv generated to a subject-set. 
+
 ## Etymology
 
 The project name is derived from:

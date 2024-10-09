@@ -89,6 +89,10 @@ if [ $MANIFEST -eq 1 ]; then
 
         for filename in $INDIR/*;
             do
+                # If trim != 0 then append string to filename
+                if [ $TRIM -ne 0 ]; then
+                    filename="$filename_trim_$TRIM"
+                fi
                 ffmpeg -hide_banner -i $filename -f sox - | sox -p -p trim $TRIM | sox -t sox - $OUTDIR/$(basename "$filename").mp3 trim 0 $DURATION : newfile : restart;
             done
 

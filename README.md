@@ -1,8 +1,8 @@
 # arthrosonic <img src="imgs/logo.png" align="right" height="138" alt="arthosonic logo" />
 
-Arthrosonic is a sound segmenter used to prepare files as part of the FlyTunes project.
+Arthrosonic is a sound segmenter used to prepare files as part of the [FlyTunes](https://www.zooniverse.org/projects/nhmcommunityscience/flytunes) project.
 
-The script takes a directory of sound files (of any type that can be read by `ffmpeg`) and cuts them into segments of length `duration` (seconds) using `sox`, optionally offsetting from the front by `trim` seconds. The files are outputted in mp3 format regardless of input format. A mainfest file is generated listing the files created with metadata.
+The script takes a directory of sound files (of any type that can be read by `ffmpeg`) and cuts them into segments of length `duration` (seconds) using `sox`, optionally offsetting from the front by `trim` seconds. The files are outputted in mp3 format regardless of input format. A mainfest file is generated listing the files created with metadata that is suitable for uploading via the Zooniverse CLI.
 
 ## Installation
 

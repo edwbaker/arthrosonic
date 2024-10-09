@@ -4,7 +4,7 @@ INDIR=""
 OUTDIR=""
 DURATION=6
 MANIFEST=1
-TRIM=0
+TRIM=""
 
 while getopts "i:o:m:t:h" opt; do
   case ${opt} in
@@ -89,11 +89,7 @@ if [ $MANIFEST -eq 1 ]; then
 
         for filename in $INDIR/*;
             do
-                # If trim != 0 then append string to filename
-                if [ $TRIM -ne 0 ]; then
-                    filename="$filename_trim_$TRIM"
-                fi
-                ffmpeg -hide_banner -i $filename -f sox - | sox -p -p trim $TRIM | sox -t sox - $OUTDIR/$(basename "$filename").mp3 trim 0 $DURATION : newfile : restart;
+                ffmpeg -hide_banner -i $filename -f sox - | sox -p -p trim $TRIM | sox -t sox - $OUTDIR/$(basename "$filename")$TRIM.mp3 trim 0 $DURATION : newfile : restart;
             done
 
         echo "file,segment.file,segment.length,segment.number" > $OUTDIR/manifest.csv

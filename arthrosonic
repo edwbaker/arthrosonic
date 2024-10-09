@@ -4,8 +4,9 @@ INDIR=""
 OUTDIR=""
 DURATION=6
 MANIFEST=1
+TRIM=0
 
-while getopts "i:o:m:h" opt; do
+while getopts "i:o:m:t:h" opt; do
   case ${opt} in
     h)
       echo "Usage: $0 -i <input directory> -o <output directory> [-d <duration of samples>] [-m <manifest>]"
@@ -14,6 +15,7 @@ while getopts "i:o:m:h" opt; do
       echo "  -o: Output directory to store segmented audio files."
       echo "  -d: Duration of each segment in seconds. Default is 6 seconds."
       echo "  -m: Generate manifest file. 0 for false, 1 for true. Default is 1."
+      echo "  -t: Offset the start of first segment by this amount in seconds. Default is 0."
       echo "  -h: Display this help message."
       exit 0
       ;;
@@ -28,6 +30,9 @@ while getopts "i:o:m:h" opt; do
       ;;
     m)
       MANIFEST="$OPTARG"
+      ;;
+    t)
+      TRIM="$OPTARG"
       ;;
     :)
       echo "Option -${OPTARG} requires an argument."
@@ -84,7 +89,7 @@ if [ $MANIFEST -eq 1 ]; then
 
         for filename in $INDIR/*;
             do
-                ffmpeg -hide_banner -i $filename -f sox - | sox -t sox - $OUTDIR/$(basename "$filename").mp3 trim 0 $DURATION : newfile : restart;
+                ffmpeg -hide_banner -i $filename -f sox - | sox -p -p trim $TRIM | sox -t sox - $OUTDIR/$(basename "$filename").mp3 trim 0 $DURATION : newfile : restart;
             done
 
         echo "file,segment.file,segment.length,segment.number" > $OUTDIR/manifest.csv
